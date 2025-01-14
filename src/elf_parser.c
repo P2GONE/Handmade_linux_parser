@@ -189,7 +189,7 @@ byte* get_symbol_string_table(byte* elf_file, Elf64_Shdr** section_headers, Elf6
 }
 
 // 동적 섹션 가져오기
-Elf64_Dyn** get_dynamic_section(byte* elf_file, Elf64_Shdr** section_headers, Elf64_Ehdr* elf_header, uint32* dyn_count) { 
+Elf64_Dyn** get_dynamic_section(byte* elf_file, Elf64_Shdr** section_headers, Elf64_Ehdr* elf_header, uint32* dyn_count) {
     Elf64_Dyn** dynamic_section = NULL;
     uint32 idx_dynamic = -1;
 
@@ -346,17 +346,17 @@ void print_section_headers(Elf64_Shdr** section_headers, byte* section_header_st
         uint32 type = section_headers[i]->sh_type;
         uint32 link = section_headers[i]->sh_link;
 
-        printf("%2d %s\t%08llx\t%016llx\t%08llx\t", 
-               i, 
-               section_header_string_table + name, 
-               size, 
-               addr, 
+        printf("%2d %s\t%08llx\t%016llx\t%08llx\t",
+               i,
+               section_header_string_table + name,
+               size,
+               addr,
                offset);
 
         switch (type) {
             case SHT_PROGBITS: printf("SHT_PROGBITS\n"); break;
-            case SHT_SYMTAB: 
-                printf("SHT_SYMTAB(%x)\n", link); 
+            case SHT_SYMTAB:
+                printf("SHT_SYMTAB(%x)\n", link);
                 break;
             case SHT_STRTAB: printf("SHT_STRTAB\n"); break;
             case SHT_RELA: printf("SHT_RELA\n"); break;
@@ -408,11 +408,11 @@ void print_symbol_table(Elf64_Shdr** section_headers, byte* section_header_strin
 
         if (name == 0) continue;
 
-        printf("%d\t%s\t\t0x%016llx\t%llu\t\t%s\n", 
-               i, 
-               section_name, 
-               value, 
-               size_sym, 
+        printf("%d\t%s\t\t0x%016llx\t%llu\t\t%s\n",
+               i,
+               section_name,
+               value,
+               size_sym,
                symbol_string_table + name);
     }
 
@@ -443,8 +443,8 @@ void print_dynamic_section(Elf64_Shdr** section_headers, Elf64_Dyn** dynamic_sec
         printf("%2d\t", i);
 
         switch(tag) {
-            case DT_NEEDED: 
-                printf("NEEDED\t"); 
+            case DT_NEEDED:
+                printf("NEEDED\t");
                 val_ptr = dynamic_section[i]->d_un.d_val;
                 printf("%s", &dynamic_string[val_ptr]);
                 break;
@@ -512,9 +512,9 @@ void print_program_headers(Elf64_Phdr** program_headers, Elf64_Ehdr* elf_header)
 
         if (skip) continue;
 
-        printf("off\t0x%016llx\tvaddr\t0x%016llx\tpaddr\t0x%016llx\talign\t0x%llx\n", 
+        printf("off\t0x%016llx\tvaddr\t0x%016llx\tpaddr\t0x%016llx\talign\t0x%llx\n",
                offset, vaddr, paddr, align);
-        printf("\t\tfilesz\t0x%016llx\tmemsz\t0x%016llx\tflags\t", 
+        printf("\t\tfilesz\t0x%016llx\tmemsz\t0x%016llx\tflags\t",
                filesz, memsz);
         switch (flags) {
             case 0: printf("---"); break;
@@ -538,7 +538,7 @@ void free_all(ELF_Info* elf_info) {
 
     if (elf_info->elf_file) free(elf_info->elf_file);
     if (elf_info->elf_header) free(elf_info->elf_header);
-    
+
     if (elf_info->section_headers) {
         for (uint32 i = 0; i < elf_info->elf_header->e_shnum; ++i) {
             if (elf_info->section_headers[i]) free(elf_info->section_headers[i]);
@@ -556,7 +556,7 @@ void free_all(ELF_Info* elf_info) {
                 break;
             }
         }
-        uint32 n_symbols = (idx_symtab_header != -1) ? 
+        uint32 n_symbols = (idx_symtab_header != -1) ?
             elf_info->section_headers[idx_symtab_header]->sh_size / sizeof(Elf64_Sym) : 0;
 
         for (uint32 i = 0; i < n_symbols; ++i) {
