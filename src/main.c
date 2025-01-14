@@ -74,7 +74,7 @@ int main(int argc, char* argv[]) {
     }
 
     // ELF 헤더 출력
-    print_elf_header64(*elf_info->elf_header);
+    //print_elf_header64(*elf_info->elf_header);
 
     // 섹션 헤더 읽기
     // ELF 파일을 메모리에 읽어들였으므로, 파일 디스크립터를 통해 읽을 필요가 없습니다.
@@ -107,10 +107,10 @@ int main(int argc, char* argv[]) {
     }
 
     // 섹션 헤더 출력
-    print_section_headers64(elf_info->elf_header, elf_info->section_headers, elf_info->section_header_string_table);
+    //print_section_headers64(elf_info->elf_header, elf_info->section_headers, elf_info->section_header_string_table);
 
     // 심볼 테이블 출력
-    print_symbols64(elf_info->elf_file, elf_info->elf_header, elf_info->section_headers);
+    //print_symbols64(elf_info->elf_file, elf_info->elf_header, elf_info->section_headers);
 
     // 동적 섹션 출력
     // 동적 섹션을 처리하는 추가적인 코드가 필요합니다.
